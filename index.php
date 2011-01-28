@@ -13,22 +13,7 @@ $today_date    = strtotime('Today')
 	<meta name = "viewport" content = "user-scalable=no, width=device-width">
 	<link rel="SHORTCUT ICON" href="fav.ico"/>
 	<title>****r Saloon</title>
-	<style>
-		body{background-color:#000;color:#0063DC;font-size:200%;font-family:Arial, sans-serif;}
-		.hot{color:#FF0084;white-space:nowrap;text-decoration:none;}
-		.hot:hover{text-shadow: 0 0 0.2em #87F}
-		div.body{height:20%;position:absolute;top:40%;right:10px;bottom:40%;left:10px;}
-		div.footer{font-size:50%;position:absolute;bottom:10px;left:10px;}
-		
-		.possibly-mobile body{background-color:font-size:100%;}
-		.possibly-mobile div.body{height:100%;position:absolute;top:10px;right:10px;bottom:10px;left:10px;}
-		.possibly-mobile span.hot{overflow: hidden;
-		text-overflow: ellipsis;
-		-o-text-overflow: ellipsis;
-		white-space: nowrap;
-		width: 100%;display:block;}
-		.possibly-mobile div.footer{display:none;}
-    	</style>
+	<link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8">
 </head>
 <body>
 <?if(stristr($_SERVER['HTTP_REFERER'],'techcrunch.com') || $_GET['forcetc']) {?>
