@@ -11,13 +11,14 @@ $sdb = new AmazonSDB();
 # Get most recent drink
 #
 
-$response = $sdb->select('SELECT * FROM `prod_drunkpukingpandas_drinks` limit 1');
+$response   = $sdb->select('SELECT * FROM `prod_drunkpukingpandas_drinks` limit 1');
+$attributes = $response->body->SelectResult->Item->Attribute;
 
 #
 # Format date
 #
 
-$cocktail_date = strtotime($response->body->SelectResult->Item->Attribute[2]->Value);
+$cocktail_date = strtotime($attributes[2]->Value);
 $friday_date   = strtotime('next Friday');
 $today_date    = strtotime('Today');
 $unfriendly_date = date('M, d Y',$cocktail_date);
@@ -34,9 +35,9 @@ if($friday_date==$cocktail_date) {
 # Get other attribites
 #
 
-$drink_name       = (string) $response->body->SelectResult->Item->Attribute[0]->Value;
-$barkeep_username = (string) $response->body->SelectResult->Item->Attribute[1]->Value;
-$drink_url        = (string) $response->body->SelectResult->Item->Attribute[3]->Value;
+$drink_name       = (string) $attributes[0]->Value;
+$barkeep_username = (string) $attributes[1]->Value;
+$drink_url        = (string) $attributes[3]->Value;
 
 ?>
 <!DOCTYPE html>
