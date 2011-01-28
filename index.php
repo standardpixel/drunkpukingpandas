@@ -1,6 +1,23 @@
 <?
-include('db.txt');
-$cocktail_date = strtotime($db[0]['date']);
+require_once '/var/www_libs/aws-sdk-for-php/sdk.class.php';
+
+#
+# Set up simple db instance
+#
+
+$sdb = new AmazonSDB();
+
+#
+# Get most recent drink
+#
+
+$response = $sdb->select('SELECT * FROM `prod_drunkpukingpandas_drinks` limit 1');
+
+#
+# Format date
+#
+
+$cocktail_date = strtotime($response->body->SelectResult->Item->Attribute[2]->Value);
 $friday_date   = strtotime('next Friday');
 $today_date    = strtotime('Today');
 $unfriendly_date = date('M, d Y',$cocktail_date);
@@ -12,6 +29,15 @@ if($friday_date==$cocktail_date) {
 } else {
 	$friendly_date = 'On:&nbsp;' . $unfriendly_date;
 }
+
+#
+# Get other attribites
+#
+
+$drink_name       = (string) $response->body->SelectResult->Item->Attribute[0]->Value;
+$barkeep_username = (string) $response->body->SelectResult->Item->Attribute[1]->Value;
+$drink_url        = (string) $response->body->SelectResult->Item->Attribute[3]->Value;
+
 ?>
 <!DOCTYPE html>
 
@@ -29,18 +55,18 @@ if($friday_date==$cocktail_date) {
 		
 		What are we drinking <?= $friendly_date ?>?
 		
-		<?if($db[0]['url']){?>
-			<a href="<?=$db[0]['url']?>" class="hot">
+		<?if(count($drink_url)){?>
+			<a href="<?= $drink_url ?>" class="hot">
 		<?}?>
 		
-		<span class="hot"><?=$db[0]['title']?></span>
+		<span class="hot"><?= $drink_name ?></span>
 		
-		<?if($db[0]['url']){?>
+		<?if(count($drink_url)){?>
 			</a>
 		<?}?>
 		
 	</div>
 
-	<div class='footer'>Barkeep: <?=$db[0]['barkeep']?></div>
+	<div class='footer'>Barkeep: <?= $barkeep_username ?></div>
 </body>
 </html>
