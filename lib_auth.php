@@ -58,7 +58,7 @@ if($_COOKIE['auth_token']) {
 }
 
 if((!$_COOKIE['auth_token'] || !$auth_response) && !$auth_write) {
-	$auth_write = '<a href="' . $api->getAuthUrl('read') . '">Login</a>';
+	$auth_write = '<a href="' . $api->getAuthUrl('read') . '">Psssst... What\'s the password?</a>';
 }
 
 

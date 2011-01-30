@@ -52,7 +52,7 @@ if($auth_status !== '') {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name = "viewport" content = "user-scalable=no, width=device-width">
 	<link rel="SHORTCUT ICON" href="fav.ico"/>
-	<title>****r Saloon</title>
+	<title><?if(!$auth_response) {?>The Financial District Anti-Saloon League<?}else{?>Flickr Saloon<?}?></title>
 	<link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8">
 </head>
 <body>
