@@ -58,7 +58,6 @@ if($auth_status !== '') {
 <body>
 
 <?if($auth_response) {?>
-	<a href="?logout=true">Logout</a>
 	<div class='body'>
 
 			What are we drinking <?= $friendly_date ?>?
