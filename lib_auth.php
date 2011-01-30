@@ -40,9 +40,24 @@ if($_COOKIE['auth_token']) {
 	$auth_response = $api->callMethod('flickr.auth.checkToken', array(
 		'auth_token' => $_COOKIE['auth_token']
 	));
-} 
+	
+	require_once '/var/www_libs/aws-sdk-for-php/sdk.class.php';
+	$sdb = new AmazonSDB();
+	$blessed_auth_response      = $sdb->get_attributes('prod_drunkpukingpandas','blessed',$auth_response->children[1]->children[5]->attributes['nsid']);
+	$blessed_auth_response_nsid = (string) $blessed_auth_response->body->GetAttributesResult->Attribute->Name;
+	
+	if(!$blessed_auth_response_nsid) {
+		#
+		# Not blessed
+		#
+		
+		$auth_response = 0;
+		
+		$auth_write = 'Tell Eric to grant you access.';
+	}
+}
 
-if(!$_COOKIE['auth_token'] || !$auth_response) {
+if((!$_COOKIE['auth_token'] || !$auth_response) && !$auth_write) {
 	$auth_write = '<a href="' . $api->getAuthUrl('read') . '">Login</a>';
 }
 
